@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E3C97D8-BBC1-452F-B579-55BF12624E80}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Production_schedule</RootNamespace>
+    <AssemblyName>Production schedule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GantChart2">
+      <HintPath>..\GanttChart2\bin\Debug\GantChart2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutWindow.Designer.cs">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ComboBoxItem.cs" />
+    <Compile Include="ConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigWindow.Designer.cs">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertCustomer.Designer.cs">
+      <DependentUpon>InsertCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertDevice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertDevice.Designer.cs">
+      <DependentUpon>InsertDevice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertMaterial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertMaterial.Designer.cs">
+      <DependentUpon>InsertMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertProduction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertProduction.Designer.cs">
+      <DependentUpon>InsertProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertTask.Designer.cs">
+      <DependentUpon>InsertTask.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="InsertOrder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="InsertOrder.Designer.cs">
+      <DependentUpon>InsertOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="ProgramConfiguration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgramConfiguration.Designer.cs">
+      <DependentUpon>ProgramConfiguration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProgramParam.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutWindow.resx">
+      <DependentUpon>AboutWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConfigWindow.resx">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertCustomer.resx">
+      <DependentUpon>InsertCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertDevice.resx">
+      <DependentUpon>InsertDevice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertMaterial.resx">
+      <DependentUpon>InsertMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertProduction.resx">
+      <DependentUpon>InsertProduction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertTask.resx">
+      <DependentUpon>InsertTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertOrder.resx">
+      <DependentUpon>InsertOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgramConfiguration.resx">
+      <DependentUpon>ProgramConfiguration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScheduleCore\ScheduleCore.csproj">
+      <Project>{2FBB78C6-119D-4AED-9904-3F154BD9AE59}</Project>
+      <Name>ScheduleCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

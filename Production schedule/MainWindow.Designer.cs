@@ -46,6 +46,8 @@
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
             this.свернутьВсеЗаданияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.развенутьВсеЗаданияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.GroupCloneTasks = new System.Windows.Forms.ToolStripMenuItem();
             this.проектToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.построитьОбычноеРасписаниеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,6 +68,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -204,7 +207,9 @@
             this.статусбарToolStripMenuItem,
             this.toolStripMenuItem6,
             this.свернутьВсеЗаданияToolStripMenuItem,
-            this.развенутьВсеЗаданияToolStripMenuItem});
+            this.развенутьВсеЗаданияToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.GroupCloneTasks});
             this.видToolStripMenuItem.Name = "видToolStripMenuItem";
             this.видToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.видToolStripMenuItem.Text = "Вид";
@@ -215,28 +220,43 @@
             this.статусбарToolStripMenuItem.CheckOnClick = true;
             this.статусбарToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.статусбарToolStripMenuItem.Name = "статусбарToolStripMenuItem";
-            this.статусбарToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.статусбарToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
             this.статусбарToolStripMenuItem.Text = "Статусбар";
             this.статусбарToolStripMenuItem.Click += new System.EventHandler(this.статусбарToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(192, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(387, 6);
             // 
             // свернутьВсеЗаданияToolStripMenuItem
             // 
             this.свернутьВсеЗаданияToolStripMenuItem.Name = "свернутьВсеЗаданияToolStripMenuItem";
-            this.свернутьВсеЗаданияToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.свернутьВсеЗаданияToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
             this.свернутьВсеЗаданияToolStripMenuItem.Text = "Свернуть все задания";
             this.свернутьВсеЗаданияToolStripMenuItem.Click += new System.EventHandler(this.свернутьВсеЗаданияToolStripMenuItem_Click);
             // 
             // развенутьВсеЗаданияToolStripMenuItem
             // 
             this.развенутьВсеЗаданияToolStripMenuItem.Name = "развенутьВсеЗаданияToolStripMenuItem";
-            this.развенутьВсеЗаданияToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.развенутьВсеЗаданияToolStripMenuItem.Size = new System.Drawing.Size(390, 22);
             this.развенутьВсеЗаданияToolStripMenuItem.Text = "Развенуть все задания";
             this.развенутьВсеЗаданияToolStripMenuItem.Click += new System.EventHandler(this.развенутьВсеЗаданияToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(387, 6);
+            // 
+            // GroupCloneTasks
+            // 
+            this.GroupCloneTasks.Checked = true;
+            this.GroupCloneTasks.CheckOnClick = true;
+            this.GroupCloneTasks.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.GroupCloneTasks.Name = "GroupCloneTasks";
+            this.GroupCloneTasks.Size = new System.Drawing.Size(390, 22);
+            this.GroupCloneTasks.Text = "Группировать задания с одинаковыми характеристиками";
+            this.GroupCloneTasks.Click += new System.EventHandler(this.GroupCloneTasks_Click);
             // 
             // проектToolStripMenuItem
             // 
@@ -253,27 +273,27 @@
             // 
             this.построитьОбычноеРасписаниеToolStripMenuItem.Name = "построитьОбычноеРасписаниеToolStripMenuItem";
             this.построитьОбычноеРасписаниеToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.построитьОбычноеРасписаниеToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
-            this.построитьОбычноеРасписаниеToolStripMenuItem.Text = "Построить";
+            this.построитьОбычноеРасписаниеToolStripMenuItem.Size = new System.Drawing.Size(439, 22);
+            this.построитьОбычноеРасписаниеToolStripMenuItem.Text = "Построить с минимизацией времени исполнения всех заказов";
             this.построитьОбычноеРасписаниеToolStripMenuItem.Click += new System.EventHandler(this.построитьОбычноеРасписаниеToolStripMenuItem_Click);
             // 
             // построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem
             // 
             this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Name = "построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem";
             this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
-            this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Text = "Построить по директивным срокам";
+            this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Size = new System.Drawing.Size(439, 22);
+            this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Text = "Построить с минимизацией времени по директивным срокам";
             this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem.Click += new System.EventHandler(this.построитьРасписаниеСИспользованиемДирективныхСроковToolStripMenuItem_Click);
             // 
             // toolStripMenuItem7
             // 
             this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(288, 6);
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(436, 6);
             // 
             // управлениеПроектомToolStripMenuItem
             // 
             this.управлениеПроектомToolStripMenuItem.Name = "управлениеПроектомToolStripMenuItem";
-            this.управлениеПроектомToolStripMenuItem.Size = new System.Drawing.Size(291, 22);
+            this.управлениеПроектомToolStripMenuItem.Size = new System.Drawing.Size(439, 22);
             this.управлениеПроектомToolStripMenuItem.Text = "Управление проектом";
             this.управлениеПроектомToolStripMenuItem.Click += new System.EventHandler(this.управлениеПроектомToolStripMenuItem_Click);
             // 
@@ -365,7 +385,8 @@
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4,
-            this.columnHeader5});
+            this.columnHeader5,
+            this.columnHeader6});
             this.listView1.ContextMenuStrip = this.contextMenuStrip1;
             this.listView1.FullRowSelect = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
@@ -400,6 +421,11 @@
             // 
             this.columnHeader5.Text = "Размер";
             this.columnHeader5.Width = 125;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Количество";
+            this.columnHeader6.Width = 99;
             // 
             // contextMenuStrip1
             // 
@@ -490,6 +516,8 @@
             this.gantChart1.TabIndex = 3;
             this.gantChart1.TaskColorFill = System.Drawing.Color.SkyBlue;
             this.gantChart1.TaskColorFillAlert = System.Drawing.Color.Red;
+            this.gantChart1.TaskColorFillOrder = System.Drawing.Color.Yellow;
+            this.gantChart1.TaskColorFillOrderShadow = System.Drawing.Color.Yellow;
             this.gantChart1.TaskColorFillShadow = System.Drawing.Color.LightGray;
             this.gantChart1.TaskColorPerimeter = System.Drawing.Color.Blue;
             // 
@@ -602,7 +630,7 @@
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "Обычное расписание";
+            this.toolStripButton3.Text = "Построить с минимизацией времени исполнения всех заказов";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // toolStripButton4
@@ -612,7 +640,7 @@
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Silver;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton4.Text = "Расписание с директивными сроками";
+            this.toolStripButton4.Text = "Построить с минимизацией времени по директивным срокам";
             this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
             // 
             // imageList1
@@ -720,6 +748,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem GroupCloneTasks;
     }
 }
 

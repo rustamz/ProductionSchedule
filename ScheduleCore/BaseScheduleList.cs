@@ -97,6 +97,21 @@ namespace ScheduleCore
             }
             return "";
         }
+        
+        /// <summary>
+        /// Возвращает ссылку на элемент по идентификатору
+        /// </summary>
+        /// <param name="Id">Идентификатор элемента.</param>
+        /// <returns>Ссылка на идентификатор, либо null.</returns>
+        public IBaseScheduleItem GetItemById(int Id)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].Id == Id)
+                    return items[i];
+            }
+            return null ; 
+        }
 
         /// <summary>
         /// Удаляет элемент по идентификатору.
@@ -134,7 +149,7 @@ namespace ScheduleCore
         }
 
         /// <summary>
-        /// 
+        /// Получает минимальный свободный Id
         /// </summary>
         /// <returns></returns>
         public int GetFreeId()

@@ -24,6 +24,7 @@ namespace ScheduleCore
     {
         protected int id;
         protected string text;
+        protected object tag;
 
         /// <summary>
         /// Возвращает или устанавливает идентификатор объекта.
@@ -41,6 +42,12 @@ namespace ScheduleCore
         {
             get { return text; }
             set { text = value; }
+        }
+
+        public object Tag
+        {
+            get { return tag; }
+            set { tag = value; }
         }
 
         /// <summary>

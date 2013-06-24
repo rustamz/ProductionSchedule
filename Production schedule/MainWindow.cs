@@ -159,6 +159,24 @@ namespace Production_schedule
             }
         }
 
+        private ListViewItem GetItemByCharacteristics(ListView.ListViewItemCollection Items, int TaskProductionId, int TaskMaterialId, int TaskSizeIndex)
+        {
+            foreach (ListViewItem Item in Items)
+            {
+                ScheduleCore.TaskItem OrdItem = (ScheduleCore.TaskItem)sm.Data.Tasks.GetItemById((int)Item.Tag);
+                if (OrdItem != null)
+                {
+                    if (OrdItem.ProductionId == TaskProductionId
+                        && OrdItem.MaterialId == TaskMaterialId 
+                        && OrdItem.SizeIndex == TaskSizeIndex)
+                    {
+                        return Item;
+                    }
+                }
+            }
+            return null;
+        }
+
         private void LoadTasks()
         {
             listView1.BeginUpdate();
@@ -206,36 +224,73 @@ namespace Production_schedule
 
                     for (int i = 0; i < OrderedTask.Count; i++)
                     {
-                        ListViewItem lvi = new ListViewItem((i + 1).ToString());
-                        lvi.Tag = OrderedTask[i].Id;
-                        lvi.SubItems.Add(OrderedTask[i].Text);
-                        lvi.SubItems.Add(sm.Data.Productions.GetTextById(OrderedTask[i].ProductionId));
-                        lvi.SubItems.Add(sm.Data.Materials.GetTextById(OrderedTask[i].MaterialId));
-                        int ProdIndex = sm.Data.Productions.GetIndexById(OrderedTask[i].ProductionId);
-                        int SizePos = -1;
-                        for (int k = 0; k < sm.Data.Productions[ProdIndex].SupSizes.Count; k++)
+                        // получаем информацию из задания
+                        int TaskProductionId = OrderedTask[i].ProductionId;
+                        int TaskMaterialId = OrderedTask[i].MaterialId;
+                        int TaskSizeIndex = OrderedTask[i].SizeIndex;
+
+                        // получаем задание из группы с такими же характеристиками
+
+                        ListViewItem CloneTask = null;
+
+                        if (GroupCloneTasks.Checked)
+                            CloneTask = GetItemByCharacteristics(listView1.Groups[groupIndex].Items, TaskProductionId, TaskMaterialId, TaskSizeIndex);
+                        
+                        // если такого задание нет, то создаём новое
+                        if (CloneTask == null)
                         {
-                            if (sm.Data.Productions[ProdIndex].SupSizes[k].Index == OrderedTask[i].SizeIndex)
+                            int SizePos = -1;
+                            int ProdIndex = sm.Data.Productions.GetIndexById(OrderedTask[i].ProductionId);
+                            for (int k = 0; k < sm.Data.Productions[ProdIndex].SupSizes.Count; k++)
                             {
-                                SizePos = k;
-                                break;
+                                if (sm.Data.Productions[ProdIndex].SupSizes[k].Index == OrderedTask[i].SizeIndex)
+                                {
+                                    SizePos = k;
+                                    break;
+                                }
+                            }
+                            ListViewItem lvi = new ListViewItem((i + 1).ToString());
+                            lvi.Tag = OrderedTask[i].Id;
+                            lvi.SubItems.Add(OrderedTask[i].Text);
+                            lvi.SubItems.Add(sm.Data.Productions.GetTextById(OrderedTask[i].ProductionId));
+                            lvi.SubItems.Add(sm.Data.Materials.GetTextById(OrderedTask[i].MaterialId));
+                            
+                            if (SizePos != -1)
+                            {
+                                lvi.SubItems.Add(sm.Data.Productions[ProdIndex].SupSizes[SizePos].Length.ToString() + "×" +
+                                                 sm.Data.Productions[ProdIndex].SupSizes[SizePos].Width.ToString() + "×" +
+                                                 sm.Data.Productions[ProdIndex].SupSizes[SizePos].Height.ToString());
+                            }
+                            else
+                            {
+                                lvi.SubItems.Add("нет данных");
+                            }
+
+                            lvi.SubItems.Add("1");
+
+                            listView1.Items.Add(lvi).Group = listView1.Groups[groupIndex];
+                        }
+                        else // если есть такое задание, то увеличиваем у него количество
+                        {
+                            int CountInTask = Convert.ToInt32(CloneTask.SubItems[CloneTask.SubItems.Count - 1].Text);
+                            CloneTask.SubItems[CloneTask.SubItems.Count - 1].Text = (CountInTask + 1).ToString();
+
+                            string TaskText = CloneTask.SubItems[1].Text;
+                            string Divider = " ... ";
+                            if (CountInTask == 1)
+                            {
+                                CloneTask.SubItems[1].Text = CloneTask.SubItems[1].Text + Divider + OrderedTask[i].Text;
+                            }
+                            else
+                            {
+                                int PointsPos = TaskText.IndexOf(Divider);
+                                if (PointsPos > -1)
+                                {
+                                    TaskText = TaskText.Remove(PointsPos, TaskText.Length - PointsPos);
+                                    CloneTask.SubItems[1].Text = TaskText + Divider + OrderedTask[i].Text;
+                                }
                             }
                         }
-
-                        if (SizePos != -1)
-                        {
-                            lvi.SubItems.Add(sm.Data.Productions[ProdIndex].SupSizes[SizePos].Length.ToString() + "×" +
-                                             sm.Data.Productions[ProdIndex].SupSizes[SizePos].Width.ToString() + "×" +
-                                             sm.Data.Productions[ProdIndex].SupSizes[SizePos].Height.ToString());
-                        }
-                        else
-                        {
-                            lvi.SubItems.Add("нет данных"); 
-                        }
-
-                        listView1.Items.Add(lvi).Group = listView1.Groups[groupIndex];
-
-                        //listView1.Groups[groupIndex].Items.Add(lvi);
                     }
                 }
             }
@@ -639,8 +694,135 @@ namespace Production_schedule
                     Microsoft.Office.Interop.Excel.Worksheet sheet = book.ActiveSheet;
                     //sheet.Cells[1, 1] = "Hello!";
 
-                    dynamic merg = sheet.get_Range("A1", "A2");
+                    int DeviceIndex = 2;
+                    for (int i = 0; i < sm.Data.Saws.Count; i++)
+                    {
+                        sheet.Cells[2, DeviceIndex] = sm.Data.Saws[i].Text;
+                        sm.Data.Saws[i].Tag = DeviceIndex;
+                        sheet.Cells[2, DeviceIndex].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+                        sheet.Cells[2, DeviceIndex].Font.Bold = true;
+                        sheet.Cells[2, DeviceIndex].Font.Size = 11;
+                        sheet.Cells[2, DeviceIndex].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                        DeviceIndex++;
+                    }
+                    for (int i = 0; i < sm.Data.Grinders.Count; i++)
+                    {
+                        sheet.Cells[2, DeviceIndex] = sm.Data.Grinders[i].Text;
+                        sm.Data.Grinders[i].Tag = DeviceIndex;
+                        sheet.Cells[2, DeviceIndex].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+                        sheet.Cells[2, DeviceIndex].Font.Bold = true;
+                        sheet.Cells[2, DeviceIndex].Font.Size = 11;
+                        sheet.Cells[2, DeviceIndex].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                        DeviceIndex++;
+                    }
+
+                    string Cell1 = sheet.Cells[1, 2].Address;
+                    string Cell2 = sheet.Cells[1, (DeviceIndex - 1)].Address;
+                    dynamic merg = sheet.get_Range(Cell1, Cell2);
                     merg.Merge(Type.Missing);
+                    sheet.Cells[1, 2] = "Станки";
+                    merg.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightSkyBlue);
+                    sheet.Cells[1, 2].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+                    sheet.Cells[1, 2].Font.Bold = true;
+                    sheet.Cells[1, 2].Font.Size = 14;
+                    // пишем задания
+                    {
+                        int RowIndex = 3;
+                        ScheduleCore.TaskList temp_task = (ScheduleCore.TaskList)sm.Data.Tasks.Clone();
+
+                        for (int j = 0; j < sm.Data.Orders.Count; j++)
+                        {
+                            // получаем задания, которые относятся к заказу
+                            ScheduleCore.TaskList OrderedTask = new ScheduleCore.TaskList();
+                            Stack<int> deleteIndexes = new Stack<int>();
+
+                            // перебираем задания относящиеся к заказу
+                            for (int i = 0; i < temp_task.Count; i++)
+                            {
+                                if (temp_task[i].OrderId == sm.Data.Orders[j].Id)
+                                {
+                                    OrderedTask.Add(temp_task[i]);
+                                    deleteIndexes.Push(i);
+                                }
+                            }
+
+                            // удаляем добавленные задания, чтоб ускорить поиск остальных
+                            // заданий под заказы
+                            while (deleteIndexes.Count != 0)
+                                temp_task.Delete(deleteIndexes.Pop());
+
+                            if (OrderedTask.Count != 0)
+                            {
+                                string GroupHeader = "";
+                                GroupHeader = sm.Data.Orders[j].Text + " (" +
+                                    sm.Data.Customers.GetTextById(sm.Data.Orders[j].CustomerId) +
+                                    ", " + OrderedTask.Count.ToString() +
+                                    (OrderedTask.Count == 2 || OrderedTask.Count == 3 || OrderedTask.Count == 4 ?
+                                    " задания" : " заданий") +
+                                   (sm.Data.Orders[j].DeadLine != null ?
+                                    ", Срок исполнения: " + ScheduleCore.Configuration.DateToString(sm.Data.Orders[j].DeadLine)
+                                    : "") + ")";
+
+                                sheet.Cells[RowIndex, 1] = GroupHeader;
+
+                                Cell1 = sheet.Cells[RowIndex, 1].Address;
+                                Cell2 = sheet.Cells[RowIndex, (DeviceIndex - 1)].Address;
+                                merg = sheet.get_Range(Cell1, Cell2);
+                                merg.Merge(Type.Missing);
+                                merg.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
+
+                                sheet.Cells[RowIndex, 1].HorizontalAlignment = Microsoft.Office.Interop.Excel.Constants.xlCenter;
+
+                                RowIndex++;
+                                for (int i = 0; i < OrderedTask.Count; i++)
+                                {
+                                    sheet.Cells[RowIndex, 1] = OrderedTask[i].Text;
+                                    sheet.Cells[RowIndex, 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightGreen);
+
+                                    int TaskId = OrderedTask[i].Id;
+                                    ScheduleCore.TimeDevice DeviceSaw = sm.Data.Saws[sm.Data.Saws.IndexByTaskId(TaskId)];
+
+                                    if (DeviceSaw != null)
+                                    {
+                                        ScheduleCore.CompleteItem ComplItem = DeviceSaw.CompleteTask.GetItemByTaskId(TaskId);
+                                        if (ComplItem != null)
+                                        {
+                                            int ColumnIndex = (int)DeviceSaw.Tag;
+                                            sheet.Cells[RowIndex, ColumnIndex] = sm.Data.BaseTime.AddMinutes(ComplItem.Begin).ToString() + " - " + sm.Data.BaseTime.AddMinutes(ComplItem.End).ToString();
+
+                                            if (sm.Data.Orders[j].DeadLine < sm.Data.BaseTime.AddMinutes(ComplItem.End))
+                                            {
+                                                sheet.Cells[RowIndex, ColumnIndex].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightPink);
+                                            }
+                                        }
+                                    }
+
+                                    ScheduleCore.TimeDevice DeviceGrinder = sm.Data.Grinders[sm.Data.Grinders.IndexByTaskId(TaskId)];
+                                    if (DeviceGrinder != null)
+                                    {
+                                        ScheduleCore.CompleteItem ComplItem = DeviceGrinder.CompleteTask.GetItemByTaskId(TaskId);
+                                        if (ComplItem != null)
+                                        {
+                                            int ColumnIndex = (int)DeviceGrinder.Tag;
+                                            sheet.Cells[RowIndex, ColumnIndex] = sm.Data.BaseTime.AddMinutes(ComplItem.Begin).ToString() + " - " + sm.Data.BaseTime.AddMinutes(ComplItem.End).ToString();
+
+                                            if (sm.Data.Orders[j].DeadLine < sm.Data.BaseTime.AddMinutes(ComplItem.End))
+                                            {
+                                                sheet.Cells[RowIndex, ColumnIndex].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.LightPink);
+                                            }
+                                        }
+                                    }
+
+                                    RowIndex++;
+                                }
+                            }
+                        }
+                    }
+
+                    for (int i = 2; i < DeviceIndex; i++)
+                    {
+                        sheet.Columns[i].ColumnWidth = 40;
+                    }
 
                     book.SaveAs(dialog.FileName);
                     app.Quit();
@@ -965,6 +1147,11 @@ namespace Production_schedule
             }
 
             return MinuteCount.ToString() + " мин.";
+        }
+
+        private void GroupCloneTasks_Click(object sender, EventArgs e)
+        {
+            LoadTasks();
         }
 
     }

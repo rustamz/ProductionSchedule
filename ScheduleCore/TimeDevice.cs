@@ -88,6 +88,18 @@ namespace ScheduleCore
             : base()
         {
         }
+
+        public CompleteItem GetItemByTaskId(int TaskId)
+        {
+            foreach (CompleteItem Item in this)
+            {
+                if (Item.TaskId == TaskId)
+                {
+                    return Item;
+                }
+            }
+            return null;
+        }
     }
 
 
@@ -388,6 +400,27 @@ namespace ScheduleCore
         public void AddMaterial(MaterialPair item)
         {
             supMaterialList.Add((MaterialPair)item.Clone());
+        }
+
+        /// <summary>
+        /// Удаляет материал из списка поддерживаемых
+        /// </summary>
+        /// <param name="MaterialId">Идентификатор материала</param>
+        public void RemoveMaterial(int MaterialId)
+        {
+            Stack<int> Indexes = new Stack<int>();
+            for (int i = 0; i < supMaterialList.Count; i++)
+            {
+                if (supMaterialList[i].ID == MaterialId)
+                {
+                    Indexes.Push(i);
+                }
+            }
+
+            while (Indexes.Count != 0)
+            {
+                supMaterialList.RemoveAt(Indexes.Pop());
+            }
         }
 
         /// <summary>

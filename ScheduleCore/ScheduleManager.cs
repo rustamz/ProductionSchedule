@@ -69,6 +69,8 @@ namespace ScheduleCore
         /// </summary>
         public void StartSchedule()
         {
+            // устанавливаем в каждое задание директивный срок
+            SetDirectiveFromOrder(data.Orders, data.Tasks);
             // Сбрасываем предыдущее расписание
             data.Saws.ClearCompleteTasks();
             data.Grinders.ClearCompleteTasks();

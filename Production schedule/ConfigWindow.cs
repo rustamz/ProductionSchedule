@@ -369,6 +369,9 @@ namespace Production_schedule
 
                     // получаем задания, котороые содержат удаляемый материал
                     Stack<int> tasks_indexes = new Stack<int>();
+                    Stack<int> saws_indexes = new Stack<int>();
+                    Stack<int> grinders_indexes = new Stack<int>();
+
                     for (int i = 0, i_end = conf.Tasks.Count; i < i_end; i++)
                     {
                         if (conf.Tasks[i].MaterialId == MaterialId)
@@ -377,20 +380,51 @@ namespace Production_schedule
                         }
                     }
 
-                    if (tasks_indexes.Count != 0)
+                    for (int i = 0; i < conf.Saws.Count; i++)
                     {
-                        string Msg = "Материал \"" + conf.Materials.GetTextById(MaterialId) +
-                        "\" используется в " + tasks_indexes.Count.ToString() +
-                        (tasks_indexes.Count > 1 ? " заданиях. Эти задания будут удалены." :
-                        " задании. Это задание будет удалено.") + "\r\nПродолжить?";
+                        if (conf.Saws[i].IsSupportMaterial(MaterialId))
+                        {
+                            saws_indexes.Push(i);
+                        }
+                    }
+
+                    for (int i = 0; i < conf.Grinders.Count; i++)
+                    {
+                        if (conf.Saws[i].IsSupportMaterial(MaterialId))
+                        {
+                            grinders_indexes.Push(i);
+                        }
+                    }
+
+                    if (tasks_indexes.Count != 0 || saws_indexes.Count != 0 || grinders_indexes.Count != 0)
+                    {
+                        string Msg = "Материал используется в существующих заданиях и/или в качестве настроек для станков.\r\nПродолжить удаление?";
 
                         if (MessageBox.Show(this, Msg, this.Text, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) ==
                             System.Windows.Forms.DialogResult.Yes)
                         {
+                            // удаляем задания по материалу
                             while (tasks_indexes.Count != 0)
                             {
                                 conf.Tasks.Delete(tasks_indexes.Pop());
                             }
+
+                            // удаляем из станоков
+                            while (saws_indexes.Count != 0)
+                            {
+                                int DeviceIndex = saws_indexes.Pop();
+                                conf.Saws[DeviceIndex].RemoveMaterial(MaterialId);
+                            }
+
+                            while (grinders_indexes.Count != 0)
+                            {
+                                int DeviceIndex = grinders_indexes.Pop();
+                                conf.Grinders[DeviceIndex].RemoveMaterial(MaterialId);
+                            }
+
+                            LoadSaws();
+                            LoadGrinders();
+
                             conf.Materials.DeleteById(MaterialId);
                         }
                     }
@@ -888,6 +922,11 @@ namespace Production_schedule
             {
                 изменитьToolStripMenuItem.Enabled = false;
                 удалитьToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                изменитьToolStripMenuItem.Enabled = true;
+                удалитьToolStripMenuItem.Enabled = true; 
             }
         }
 

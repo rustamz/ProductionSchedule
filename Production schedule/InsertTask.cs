@@ -289,5 +289,16 @@ namespace Production_schedule
             if (comboBox4.SelectedItem != null)
                 UpdateList();
         }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection items = listView1.SelectedItems;
+            if (items.Count > 0)
+            {
+                foreach (ListViewItem item in items)
+                    TempTasks.DeleteById((int)item.Tag);
+                UpdateList();
+            }
+        }
     }
 }
